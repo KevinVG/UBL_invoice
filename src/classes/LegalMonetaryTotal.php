@@ -15,7 +15,9 @@ use Sabre\Xml\XmlSerializable;
 class LegalMonetaryTotal implements XmlSerializable {
     private $lineExtensionAmount;
     private $taxExclusiveAmount;
+    private $taxInclusiveAmount;
     private $allowanceTotalAmount = 0;
+    private $prepaidAmount;
     private $payableAmount;
 
     /**
@@ -53,6 +55,22 @@ class LegalMonetaryTotal implements XmlSerializable {
     /**
      * @return mixed
      */
+    public function getTaxInclusiveAmount() {
+        return $this->taxInclusiveAmount;
+    }
+
+    /**
+     * @param mixed $taxExclusiveAmount
+     * @return LegalMonetaryTotal
+     */
+    public function setTaxInclusiveAmount($taxInclusiveAmount) {
+        $this->taxInclusiveAmount = $taxInclusiveAmount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getAllowanceTotalAmount() {
         return $this->allowanceTotalAmount;
     }
@@ -64,13 +82,6 @@ class LegalMonetaryTotal implements XmlSerializable {
     public function setAllowanceTotalAmount($allowanceTotalAmount) {
         $this->allowanceTotalAmount = $allowanceTotalAmount;
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPayableAmount() {
-        return $this->payableAmount;
     }
 
     /**
@@ -87,6 +98,13 @@ class LegalMonetaryTotal implements XmlSerializable {
      */
     public function getPrepaidAmount() {
         return $this->prepaidAmount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayableAmount() {
+        return $this->payableAmount;
     }
 
     /**
@@ -123,23 +141,55 @@ class LegalMonetaryTotal implements XmlSerializable {
                     'currencyID' => Generator::$currencyID
                 ]
 
-            ],
-            [
-                'name' => Schema::CBC . 'AllowanceTotalAmount',
-                'value' => number_format($this->allowanceTotalAmount, 2),
-                'attributes' => [
-                    'currencyID' => Generator::$currencyID
-                ]
-
-            ],
-            [
-                'name' => Schema::CBC . 'PayableAmount',
-                'value' => number_format($this->payableAmount,2),
-                'attributes' => [
-                    'currencyID' => Generator::$currencyID
-                ]
-
-            ],
+            ]
         ]);
+        if($this->taxInclusiveAmount !== null) {
+            $writer->write([
+                [
+                    'name' => Schema::CBC . 'TaxInclusiveAmount',
+                    'value' => number_format($this->taxInclusiveAmount, 2),
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
+    
+                ]
+            ]);
+        }
+        if($this->allowanceTotalAmount !== null) {
+            $writer->write([
+                [
+                    'name' => Schema::CBC . 'AllowanceTotalAmount',
+                    'value' => number_format($this->allowanceTotalAmount, 2),
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
+    
+                ]
+            ]);
+        }
+        if($this->prepaidAmount !== null) {
+            $writer->write([
+                [
+                    'name' => Schema::CBC . 'PrepaidAmount',
+                    'value' => number_format($this->prepaidAmount, 2),
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
+    
+                ]
+            ]);
+        }
+        if($this->payableAmount !== null) {
+            $writer->write([
+                [
+                    'name' => Schema::CBC . 'PayableAmount',
+                    'value' => number_format($this->payableAmount, 2),
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
+    
+                ]
+            ]);
+        }  
     }
 }
