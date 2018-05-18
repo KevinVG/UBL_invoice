@@ -77,7 +77,7 @@ class LegalMonetaryTotal implements XmlSerializable {
      * @param mixed $prepaidAmount
      * @return LegalMonetaryTotal
      */
-    public function setAllowanceTotalAmount($prepaidAmount) {
+    public function setPrepaidAmount($prepaidAmount) {
         $this->prepaidAmount = $prepaidAmount;
         return $this;
     }
