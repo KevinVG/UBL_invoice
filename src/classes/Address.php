@@ -41,6 +41,22 @@ class Address implements XmlSerializable{
     /**
      * @return mixed
      */
+    public function getAdditionalStreetName() {
+        return $this->additionalStreetName;
+    }
+
+    /**
+     * @param mixed $additionalStreetName
+     * @return Address
+     */
+    public function setAdditionalStreetName($additionalStreetName) {
+        $this->additionalStreetName = $additionalStreetName;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getBuildingNumber() {
         return $this->buildingNumber;
     }
@@ -109,17 +125,36 @@ class Address implements XmlSerializable{
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
-        // TODO: Implement xmlSerialize() method.
-        $cbc = '{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}';
-        $cac = '{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}';
-
-        $writer->write([
-            Schema::CBC.'StreetName' => $this->streetName,
-            Schema::CBC.'BuildingNumber' => $this->buildingNumber,
-            Schema::CBC.'CityName' => $this->cityName,
-            Schema::CBC.'PostalZone' => $this->postalZone,
-            Schema::CAC.'Country' => $this->country,
-        ]);
+    function xmlSerialize(Writer $writer) { 
+        if($this->streetName !== null) {
+            $writer->write([
+                Schema::CBC.'StreetName' => $this->streetName,
+            ]);
+        }
+        if($this->additionalStreetName !== null) {
+            $writer->write([
+                Schema::CBC.'AdditionalStreetName' => $this->additionalStreetName,
+            ]);
+        }
+        if($this->buildingNumber !== null) {
+            $writer->write([
+                Schema::CBC.'BuildingNumber' => $this->buildingNumber,
+            ]);
+        }
+        if($this->cityName !== null) {
+            $writer->write([
+                Schema::CBC.'CityName' => $this->cityName,
+            ]);
+        }
+        if($this->postalZone !== null) {
+            $writer->write([
+                Schema::CBC.'PostalZone' => $this->postalZone,
+            ]);
+        } 
+        if($this->country !== null) {
+            $writer->write([
+                Schema::CBC.'Country' => $this->country,
+            ]);
+        }  
     }
 }
