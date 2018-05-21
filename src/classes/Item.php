@@ -87,7 +87,11 @@ class Item implements XmlSerializable {
            Schema::CAC.'SellersItemIdentification' => [
                Schema::CBC.'ID' => $this->sellersItemIdentification
            ],
-           Schema::CAC.'ClassifiedTaxCategory' => $this->classifiedTaxCategory,
         ]);
+        if($this->classifiedTaxCategory !== null) {
+            $writer->write([
+               Schema::CAC.'ClassifiedTaxCategory' => $this->classifiedTaxCategory,
+           ]);
+        }
     }
 }
