@@ -214,8 +214,7 @@ class Party implements XmlSerializable{
             $writer->write([
                 Schema::CAC . 'PartyIdentification' => [[
                     'name' => Schema::CBC . 'ID',
-                    'value' => $this->endpointId,
-                    'attributes' => ['schemeID' => $this->endpointIdSchemeId]
+                    'value' => $this->endpointId, 
                 ]]
             ]);
         }
