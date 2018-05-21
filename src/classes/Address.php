@@ -153,7 +153,7 @@ class Address implements XmlSerializable{
         } 
         if($this->country !== null) {
             $writer->write([
-                Schema::CBC.'Country' => $this->country,
+                Schema::CAC.'Country' => $this->country,
             ]);
         }  
     }
