@@ -79,7 +79,7 @@ class PaymentMeans implements XmlSerializable {
      * @return void
      */
     function xmlSerialize(Writer $writer) {
-        if(!$this->id && !$this->paymentDueDate && !$this->instructionID && !$this->instructionNote && !$this->paymentId) {
+        if(!$this->id && !$this->paymentDueDate && !$this->instructionId && !$this->instructionNote && !$this->paymentId) {
             return;
         }
         // TODO: Implement xmlSerialize() method. 
