@@ -14,6 +14,8 @@ use Sabre\Xml\XmlSerializable;
 
 class TaxTotal implements XmlSerializable {
     private $taxAmount;
+    private $taxSubTotals = [];
+    
     /**
      * @var array
      */
@@ -54,10 +56,7 @@ class TaxTotal implements XmlSerializable {
     public function validate(){
         if($this->taxAmount === null){
             throw new \InvalidArgumentException('Missing taxtotal taxamount');
-        }
-        if(count($this->taxSubTotals) === 0){
-            throw new \InvalidArgumentException('Missing taxtotal taxsubtotal');
-        }
+        } 
     }
 
     /**

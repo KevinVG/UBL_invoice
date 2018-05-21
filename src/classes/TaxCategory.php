@@ -99,11 +99,21 @@ class TaxCategory implements XmlSerializable {
     function xmlSerialize(Writer $writer) {
         $this->validate();
 
-        $writer->write([
-            Schema::CBC.'ID' => $this->id,
-            Schema::CBC.'Name' => $this->name,
-            Schema::CBC.'Percent' => $this->percent,
-        ]);
+        if($this->id !== null) {
+            $writer->write([
+                Schema::CBC.'ID' => $this->id,
+             ]);
+        }
+        if($this->name !== null) {
+            $writer->write([
+                Schema::CBC.'Name' => $this->name,
+             ]);
+        }
+        if($this->percent !== null) {
+            $writer->write([
+                Schema::CBC.'Percent' => $this->percent,
+             ]);
+        } 
 
         if($this->taxScheme != null){
             $writer->write([Schema::CAC.'TaxScheme' => $this->taxScheme]);
