@@ -196,10 +196,12 @@ class Invoice implements XmlSerializable{
                 Schema::CAC . 'PaymentMeans' => $this->paymentMeans
             ]); 
         }
-
-        $writer->write([
-            Schema::CAC . 'TaxTotal' => $this->taxTotal
-        ]);
+ 
+        if ($this->taxTotal != null) { 
+            $writer->write([
+                Schema::CAC . 'TaxTotal' => $this->taxTotal
+            ]); 
+        }
 
         $writer->write([
             $cac . 'LegalMonetaryTotal' => $this->legalMonetaryTotal
