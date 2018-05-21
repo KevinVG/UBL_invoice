@@ -103,7 +103,7 @@ class TaxCategory implements XmlSerializable {
             $writer->write([
                 'name' => Schema::CBC.'ID',
                 'value' => $this->id,
-                'attributes' => ['listID' => 'UNCL5305']
+                'attributes' => ['schemeID' => 'UNCL5305']
              ]);
         }
         if($this->name !== null) {
