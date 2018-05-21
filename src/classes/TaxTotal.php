@@ -13,8 +13,7 @@ use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 
 class TaxTotal implements XmlSerializable {
-    private $taxAmount;
-    private $taxSubTotals = [];
+    private $taxAmount; 
     
     /**
      * @var array
