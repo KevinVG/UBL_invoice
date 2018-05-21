@@ -165,7 +165,11 @@ class Invoice implements XmlSerializable{
         }
         
         $writer->write([
-            $cbc . 'DocumentCurrencyCode' => Generator::$currencyID
+            [
+                'name' => $cbc . 'DocumentCurrencyCode',
+                'value' => Generator::$currencyID,
+                'attributes' => ['listID' => 'ISO4217'],
+            ]
         ]); 
 
         foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
