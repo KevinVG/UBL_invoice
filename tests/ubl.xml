@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
- <cbc:UBLVersionID>2.0</cbc:UBLVersionID>
- <cbc:CustomizationID>OIOUBL-2.01</cbc:CustomizationID>
+ <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
  <cbc:ID>CIT1234</cbc:ID>
  <cbc:CopyIndicator>false</cbc:CopyIndicator>
  <cbc:IssueDate>1994-12-12</cbc:IssueDate>
@@ -68,6 +67,13 @@
    </cac:Contact>
   </cac:Party>
  </cac:AccountingCustomerParty>
+ <cac:PaymentMeans>
+  <cbc:ID>123</cbc:ID>
+  <cbc:PaymentMeansCode listID="UNCL4461">1</cbc:PaymentMeansCode>
+  <cbc:PaymentDueDate>1995-12-12</cbc:PaymentDueDate>
+  <cbc:InstructionNote>123456789</cbc:InstructionNote>
+  <cbc:PaymentID>123456789</cbc:PaymentID>
+ </cac:PaymentMeans>
  <cac:TaxTotal>
   <cbc:TaxAmount currencyID="EUR">30.00</cbc:TaxAmount>
   <cac:TaxSubtotal>
@@ -77,6 +83,9 @@
     <cbc:ID>H</cbc:ID>
     <cbc:Name>NL, Hoog Tarief</cbc:Name>
     <cbc:Percent>21</cbc:Percent>
+    <cac:TaxScheme>
+     <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
    </cac:TaxCategory>
   </cac:TaxSubtotal>
   <cac:TaxSubtotal>
@@ -86,6 +95,9 @@
     <cbc:ID>X</cbc:ID>
     <cbc:Name>NL, Laag Tarief</cbc:Name>
     <cbc:Percent>9</cbc:Percent>
+    <cac:TaxScheme>
+     <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
    </cac:TaxCategory>
   </cac:TaxSubtotal>
  </cac:TaxTotal>
@@ -93,7 +105,7 @@
   <cbc:LineExtensionAmount currencyID="EUR">100.00</cbc:LineExtensionAmount>
   <cbc:TaxExclusiveAmount currencyID="EUR">100.00</cbc:TaxExclusiveAmount>
   <cbc:AllowanceTotalAmount currencyID="EUR">50.00</cbc:AllowanceTotalAmount>
-  <cbc:PayableAmount currencyID="EUR">-1,000.00</cbc:PayableAmount>
+  <cbc:PayableAmount currencyID="EUR">1000.00</cbc:PayableAmount>
  </cac:LegalMonetaryTotal>
  <cac:InvoiceLine>
   <cbc:ID>1</cbc:ID>
@@ -108,6 +120,9 @@
      <cbc:ID>H</cbc:ID>
      <cbc:Name>NL, Hoog Tarief</cbc:Name>
      <cbc:Percent>21</cbc:Percent>
+     <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+     </cac:TaxScheme>
     </cac:TaxCategory>
    </cac:TaxSubtotal>
    <cac:TaxSubtotal>
@@ -117,6 +132,9 @@
      <cbc:ID>X</cbc:ID>
      <cbc:Name>NL, Laag Tarief</cbc:Name>
      <cbc:Percent>9</cbc:Percent>
+     <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+     </cac:TaxScheme>
     </cac:TaxCategory>
    </cac:TaxSubtotal>
   </cac:TaxTotal>

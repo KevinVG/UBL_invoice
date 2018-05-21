@@ -1,6 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once "../vendor/autoload.php";
-
 $xmlService = new Sabre\Xml\Service();
 
 $xmlService->namespaceMap = [
@@ -11,9 +12,20 @@ $xmlService->namespaceMap = [
 
 $invoice = new \CleverIt\UBL\Invoice\Invoice();
 $date = \DateTime::createFromFormat('d-m-Y', '12-12-1994');
+$invoice->setCustomizationId('1.0');
+$invoice->setProfileId('1.0');
 $invoice->setId('CIT1234');
 $invoice->setIssueDate($date);
-$invoice->setInvoiceTypeCode("SalesInvoice");
+$invoice->setTaxPointDate($date); 
+$invoice->setInvoiceTypeCode(380); 
+
+$invoice->setAdditionalDocumentReferences([
+    (new \CleverIt\UBL\Invoice\AdditionalDocumentReference())
+        ->setId('F180001')
+        ->setDocumentType('CommercialInvoice')
+        ->setAttachment((new \CleverIt\UBL\Invoice\Attachment)
+            ->setEmbeddedDocumentBinaryObject('BASE64'))
+]);
 
 $accountingSupplierParty = new \CleverIt\UBL\Invoice\Party();
 $accountingSupplierParty->setName('CleverIt');
@@ -31,6 +43,18 @@ $accountingSupplierParty->setContact((new \CleverIt\UBL\Invoice\Contact())->setE
 $invoice->setAccountingSupplierParty($accountingSupplierParty);
 $invoice->setAccountingCustomerParty($accountingSupplierParty);
 
+$invoice->setPaymentMeans((new \CleverIt\UBL\Invoice\PaymentMeans())
+    ->setId('123')
+    ->setPaymentDueDate(\DateTime::createFromFormat('d-m-Y', '12-12-1995'))
+    ->setInstructionId('123/4567/45687')
+    ->setInstructionNote('123456789')
+    ->setPaymentId('123456789')
+    ->setPayeeFinancialAccount((new \CleverIt\UBL\Invoice\PayeeFinancialAccount())
+        ->setId('BE083745535')
+        ->setFinancialInstitutionBranch((new \CleverIt\UBL\Invoice\FinancialInstitutionBranch())
+            ->setFinancialInstitution((new \CleverIt\UBL\Invoice\FinancialInstitution())
+                ->setId('HBKBEA22')))));
+
 $taxtotal = (new \CleverIt\UBL\Invoice\TaxTotal())
     ->setTaxAmount(30)
     ->addTaxSubTotal((new \CleverIt\UBL\Invoice\TaxSubTotal())
@@ -39,14 +63,8 @@ $taxtotal = (new \CleverIt\UBL\Invoice\TaxTotal())
         ->setTaxCategory((new \CleverIt\UBL\Invoice\TaxCategory())
             ->setId("H")
             ->setName("NL, Hoog Tarief")
-            ->setPercent(21.00)))
-    ->addTaxSubTotal((new \CleverIt\UBL\Invoice\TaxSubTotal())
-        ->setTaxAmount(9)
-        ->setTaxableAmount(100)
-        ->setTaxCategory((new \CleverIt\UBL\Invoice\TaxCategory())
-            ->setId("X")
-            ->setName("NL, Laag Tarief")
-            ->setPercent(9.00)));
+            ->setPercent(21.00)
+            ->setTaxScheme((new \CleverIt\UBL\Invoice\TaxScheme())->setId('VAT'))));
 
 $invoiceLine = (new \CleverIt\UBL\Invoice\InvoiceLine())
     ->setId(1)
@@ -60,8 +78,9 @@ $invoice->setTaxTotal($taxtotal);
 $invoice->setLegalMonetaryTotal((new \CleverIt\UBL\Invoice\LegalMonetaryTotal())
     ->setLineExtensionAmount(100)
     ->setTaxExclusiveAmount(100)
-    ->setPayableAmount(-1000)
-    ->setAllowanceTotalAmount(50));
+    ->setTaxInclusiveAmount(121)
+    ->setPayableAmount(121)
+    ->setAllowanceTotalAmount(0));
 
-
-file_put_contents("ubl.xml", \CleverIt\UBL\Invoice\Generator::invoice($invoice, 'EUR'));
+header('Content-Type: application/xml');
+echo \CleverIt\UBL\Invoice\Generator::invoice($invoice, 'EUR');

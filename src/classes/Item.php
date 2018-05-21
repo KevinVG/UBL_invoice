@@ -5,7 +5,6 @@
  * Date: 25-10-2016
  * Time: 16:39
  */
-
 namespace CleverIt\UBL\Invoice;
 
 

@@ -5,9 +5,7 @@
  * Date: 13-10-2016
  * Time: 17:19
  */
-
-namespace CleverIt\UBL\Invoice;
-
+namespace CleverIt\UBL\Invoice; 
 
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;

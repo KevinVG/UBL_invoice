@@ -13,12 +13,23 @@ use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 
 class Invoice implements XmlSerializable{
-    private $UBLVersionID = '2.0';
+    private $UBLVersionID = '2.1';
 
     /**
-     * @var int
+     * @var string
      */
     private $id;
+
+    /**
+     * @var string
+     */
+    private $customizationId;
+
+    /**
+     * @var string
+     */
+    private $profileId;
+    
     /**
      * @var bool
      */
@@ -28,11 +39,22 @@ class Invoice implements XmlSerializable{
      * @var \DateTime
      */
     private $issueDate;
+    
+    /**
+     * @var \DateTime
+     */
+    private $taxPointDate;
+    
+    
     /**
      * @var string
      */
 
     private $invoiceTypeCode;
+    /**
+     * @var AdditionalDocumentReferences[]
+     */
+    private $additionalDocumentReferences;
     /**
      * @var Party
      */
@@ -106,12 +128,49 @@ class Invoice implements XmlSerializable{
         $this->validate();
 
         $writer->write([
-            $cbc . 'UBLVersionID' => $this->UBLVersionID,
-            $cbc . 'CustomizationID' => 'OIOUBL-2.01',
-            $cbc . 'ID' => $this->id,
-            $cbc . 'CopyIndicator' => $this->copyIndicator ? 'true' : 'false',
-            $cbc . 'IssueDate' => $this->issueDate->format('Y-m-d'),
-            $cbc . 'InvoiceTypeCode' => $this->invoiceTypeCode,
+            $cbc . 'UBLVersionID' => $this->UBLVersionID
+        ]);
+        
+        if($this->customizationId !== null) {
+            $writer->write([
+                $cbc . 'CustomizationID' => $this->customizationId,
+            ]);
+        }
+        
+        if($this->profileId !== null) {
+            $writer->write([
+                $cbc . 'ProfileID' => $this->profileId,
+            ]);
+        }
+        
+        $writer->write([
+            $cbc . 'ID' => $this->id, 
+            $cbc . 'IssueDate' => $this->issueDate->format('Y-m-d'), 
+        ]);
+        
+        $writer->write([
+            'name' => $cbc . 'InvoiceTypeCode',
+            'value' => 380,
+            'attributes' => ['listID' => 'UNCL1001']
+        ]);
+        
+        if($this->taxPointDate !== null) {
+            $writer->write([
+                $cbc . 'TaxPointDate' => $this->taxPointDate->format('Y-m-d'),
+            ]);
+        }
+        
+        $writer->write([
+            $cbc . 'DocumentCurrencyCode' => Generator::$currencyID
+        ]); 
+
+        foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
+            $writer->write([
+                Schema::CAC . 'AdditionalDocumentReference' => $additionalDocumentReference
+            ]);
+        }
+        
+        $writer->write([
             $cac . 'AccountingSupplierParty' => [$cac . "Party" => $this->accountingSupplierParty],
             $cac . 'AccountingCustomerParty' => [$cac . "Party" => $this->accountingCustomerParty],
         ]);
@@ -122,6 +181,12 @@ class Invoice implements XmlSerializable{
                     Schema::CAC . 'AllowanceCharge' => $invoiceLine
                 ]);
             }
+        }
+
+        if ($this->paymentMeans != null) { 
+            $writer->write([
+                Schema::CAC . 'PaymentMeans' => $this->paymentMeans
+            ]); 
         }
 
         $writer->write([
@@ -155,6 +220,38 @@ class Invoice implements XmlSerializable{
         $this->id = $id;
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getCustomizationId() {
+        return $this->customizationId;
+    }
+
+    /**
+     * @param string $customizationId
+     * @return Invoice
+     */
+    public function setCustomizationId($customizationId) {
+        $this->customizationId = $customizationId;
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getProfileId() {
+        return $this->profileId;
+    }
+
+    /**
+     * @param string $ProfileId
+     * @return Invoice
+     */
+    public function setProfileId($profileId) {
+        $this->profileId = $profileId;
+        return $this;
+    }
 
     /**
      * @return boolean
@@ -185,6 +282,22 @@ class Invoice implements XmlSerializable{
      */
     public function setIssueDate($issueDate) {
         $this->issueDate = $issueDate;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTaxPointDate() {
+        return $this->taxPointDate;
+    }
+
+    /**
+     * @param \DateTime $issueDate
+     * @return Invoice
+     */
+    public function setTaxPointDate($taxPointDate) {
+        $this->taxPointDate = $taxPointDate;
         return $this;
     }
 
@@ -237,6 +350,22 @@ class Invoice implements XmlSerializable{
     }
 
     /**
+     * @return Party
+     */
+    public function getPaymentMeans() {
+        return $this->paymentMeans;
+    }
+
+    /**
+     * @param Party $paymentMeans
+     * @return Invoice
+     */
+    public function setPaymentMeans($paymentMeans) {
+        $this->paymentMeans = $paymentMeans;
+        return $this;
+    }
+
+    /**
      * @return TaxTotal
      */
     public function getTaxTotal() {
@@ -281,6 +410,22 @@ class Invoice implements XmlSerializable{
      */
     public function setInvoiceLines($invoiceLines) {
         $this->invoiceLines = $invoiceLines;
+        return $this;
+    }
+
+    /**
+     * @return AddtionalDocumentReferences[]
+     */
+    public function getAdditionalDocumentReferences() {
+        return $this->additionalDocumentReferences;
+    }
+
+    /**
+     * @param AddtionalDocumentReferences[] $additionalDocumentReferences
+     * @return Invoice
+     */
+    public function setADditionalDocumentReferences($additionalDocumentReferences) {
+        $this->additionalDocumentReferences = $additionalDocumentReferences;
         return $this;
     }
 
