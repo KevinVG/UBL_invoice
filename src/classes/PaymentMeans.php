@@ -82,15 +82,7 @@ class PaymentMeans implements XmlSerializable {
         if(!$this->id && !$this->paymentDueDate && !$this->instructionId && !$this->instructionNote && !$this->paymentId) {
             return;
         }
-        // TODO: Implement xmlSerialize() method. 
-        if($this->id !== null) {
-            $writer->write([
-                [
-                    'name' => Schema::CBC . 'ID',
-                    'value' => $this->id,  
-                ]
-            ]);
-        }
+        // TODO: Implement xmlSerialize() method.  
         $writer->write([
             [
                 'name' => Schema::CBC . 'PaymentMeansCode',
