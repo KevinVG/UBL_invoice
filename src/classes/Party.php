@@ -45,9 +45,9 @@ class Party implements XmlSerializable{
     private $taxScheme;
 
 	/**
-	 * @var LegalEntity
+	 * @var PartyLegalEntity
 	 */
-    private $legalEntity;
+    private $partyLegalEntity;
 
     /**
      * @return mixed
