@@ -223,9 +223,14 @@ class Party implements XmlSerializable{
         $writer->write([
             Schema::CAC.'PartyName' => [
                 Schema::CBC.'Name' => $this->name
-            ],
-            Schema::CAC.'PostalAddress' => $this->postalAddress
+            ], 
         ]);
+
+	    if($this->postalAddress){
+		    $writer->write([
+			    Schema::CAC.'PostalAddress' => $this->postalAddress,
+		    ]);
+	    }
 
 	    if($this->partyTaxScheme){
 		    $writer->write([
