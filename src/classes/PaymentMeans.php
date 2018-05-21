@@ -40,8 +40,8 @@ class PaymentMeans implements XmlSerializable {
 		return $this->instructionId;
 	}
 
-	public function setInstructionID($instructionId){
-		$this->instructionID = $instructionId;
+	public function setInstructionId($instructionId){
+		$this->instructionId = $instructionId;
 		return $this;
 	}
 

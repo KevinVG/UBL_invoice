@@ -54,7 +54,7 @@ class Invoice implements XmlSerializable{
     /**
      * @var AdditionalDocumentReferences[]
      */
-    private $additionalDocumentReferences;
+    private $additionalDocumentReferences = [];
     /**
      * @var Party
      */
@@ -63,6 +63,10 @@ class Invoice implements XmlSerializable{
      * @var Party
      */
     private $accountingCustomerParty;
+    /**
+     * @var PaymentMeans
+     */
+    private $paymentMeans;
     /**
      * @var TaxTotal
      */
