@@ -14,7 +14,8 @@ use Sabre\Xml\XmlSerializable;
 
 class PartyTaxScheme implements XmlSerializable {
 	private $companyId;
-	private $taxScheme;
+	private $companyIdSchemeId;
+	private $taxScheme; 
 
 	public function getCompanyId(){
 		return $this->companyId;
@@ -22,6 +23,15 @@ class PartyTaxScheme implements XmlSerializable {
 
 	public function setCompanyId($companyId){
 		$this->companyId = $companyId;
+		return $this;
+	}
+
+	public function getCompanyIdSchemeId(){
+		return $this->companyIdSchemeId;
+	}
+
+	public function setCompanyIdSchemeId($schemeId){
+		$this->companyIdSchemeId = $schemeId;
 		return $this;
 	}
 
@@ -36,7 +46,11 @@ class PartyTaxScheme implements XmlSerializable {
 
 	function xmlSerialize(Writer $writer) {
 		$writer->write([
-			Schema::CBC.'CompanyID' => $this->companyId,
+			[
+				'name' => Schema::CBC.'CompanyID',
+				'value' => $this->companyId,
+				'attributes' => ['schemeID' => $this->companyIdSchemeId],
+			],
 			Schema::CAC.'TaxScheme' => $this->taxScheme,
 		]);
 	}

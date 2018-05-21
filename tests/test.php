@@ -28,13 +28,23 @@ $invoice->setAdditionalDocumentReferences([
 ]);
 
 $accountingSupplierParty = new \CleverIt\UBL\Invoice\Party();
-$accountingSupplierParty->setName('CleverIt');
+$accountingSupplierParty->setEndpointId('BE083745535');
+$accountingSupplierParty->setEndpointIdSchemeId('BE:VAT');
+$accountingSupplierParty->setPartyTaxScheme((new \CleverIt\UBL\Invoice\PartyTaxScheme())
+    ->setCompanyId('BE0837455735') 
+    ->setCompanyIdSchemeId('BE:VAT')
+    ->setTaxScheme((new \CleverIt\UBL\Invoice\TaxScheme())->setId('VAT')));
+$accountingSupplierParty->setName('CleverIt'); 
 $supplierAddress = (new \CleverIt\UBL\Invoice\Address())
     ->setCityName("Eindhoven")
     ->setStreetName("Keizersgracht")
     ->setBuildingNumber("15")
     ->setPostalZone("5600 AC")
     ->setCountry((new \CleverIt\UBL\Invoice\Country())->setIdentificationCode("NL"));
+$accountingSupplierParty->setPartyLegalEntity((new \CleverIt\UBL\Invoice\PartyLegalEntity())
+    ->setCompanyId('BE0837455735') 
+    ->setCompanyIdSchemeId('BE:VAT')
+    ->setRegistrationName('CleverIt'));
 
 $accountingSupplierParty->setPostalAddress($supplierAddress);
 $accountingSupplierParty->setPhysicalLocation($supplierAddress);
