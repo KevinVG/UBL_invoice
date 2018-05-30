@@ -16,6 +16,7 @@ class TaxCategory implements XmlSerializable {
     private $id;
     private $name;
     private $percent;
+    private $taxExemptionReason;
     private $taxScheme;
 
     /**
