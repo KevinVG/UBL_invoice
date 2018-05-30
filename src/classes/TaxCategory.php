@@ -69,6 +69,22 @@ class TaxCategory implements XmlSerializable {
     /**
      * @return mixed
      */
+    public function getTaxExemptionReason() {
+        return $this->taxExemptionReason;
+    }
+
+    /**
+     * @param mixed $taxExemptionReason
+     * @return TaxCategory
+     */
+    public function setTaxExemptionReason($taxExemptionReason) {
+        $this->taxExemptionReason = $taxExemptionReason;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTaxScheme() {
         return $this->taxScheme;
     }
@@ -116,6 +132,12 @@ class TaxCategory implements XmlSerializable {
                 Schema::CBC.'Percent' => $this->percent,
              ]);
         } 
+        
+        if($this->taxExemptionReason !== null) { 
+            $writer->write([
+                Schema::CBC.'TaxExemptionReason' => $this->taxExemptionReason,
+             ]);
+        }
 
         if($this->taxScheme != null){
             $writer->write([Schema::CAC.'TaxScheme' => $this->taxScheme]);
