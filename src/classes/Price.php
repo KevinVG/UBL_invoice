@@ -74,22 +74,28 @@ class Price implements XmlSerializable {
      * @return void
      */
     function xmlSerialize(Writer $writer) {
-        $writer->write([
-            [
-                'name' => Schema::CBC.'PriceAmount',
-                'value' => $this->priceAmount,
-                'attributes' => [
-                    'currencyID' => Generator::$currencyID
+        if ($this->priceAmount !== null) {
+            $writer->write(
+                [
+                    'name' => Schema::CBC.'PriceAmount',
+                    'value' => $this->priceAmount,
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
                 ]
-            ],
-            [
-                'name' => Schema::CBC.'BaseQuantity',
-                'value' => $this->baseQuantity,
-                'attributes' => [
-                    'unitCode' => $this->unitCode
+            );
+        }
+        
+        if ($this->baseQuantity !== null) {
+            $writer->write(
+                [
+                    'name' => Schema::CBC.'BaseQuantity',
+                    'value' => $this->baseQuantity,
+                    'attributes' => [
+                        'unitCode' => $this->unitCode
+                    ]
                 ]
-            ]
-
-        ]);
+            );
+        } 
     }
 }
