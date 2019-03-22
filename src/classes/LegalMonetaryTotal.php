@@ -18,6 +18,7 @@ class LegalMonetaryTotal implements XmlSerializable {
     private $taxInclusiveAmount;
     private $allowanceTotalAmount = 0;
     private $prepaidAmount;
+    private $payableRoundingAmount;
     private $payableAmount;
 
     /**
@@ -179,6 +180,18 @@ class LegalMonetaryTotal implements XmlSerializable {
                 ]
             ]);
         }
+        if($this->payableRoundingAmount !== null) {
+            $writer->write([
+                [
+                    'name' => Schema::CBC . 'PayableRoundingAmount',
+                    'value' => number_format($this->payableRoundingAmount,2,'.',''),
+                    'attributes' => [
+                        'currencyID' => Generator::$currencyID
+                    ]
+    
+                ]
+            ]);
+        }  
         if($this->payableAmount !== null) {
             $writer->write([
                 [
