@@ -109,6 +109,15 @@ class LegalMonetaryTotal implements XmlSerializable {
     }
 
     /**
+     * @param mixed $payableRoundingAmount
+     * @return LegalMonetaryTotal
+     */
+    public function setPayableRoundingAmount($payableRoundingAmount) {
+        $this->payableRoundingAmount = $payableRoundingAmount;
+        return $this;
+    }
+
+    /**
      * @param mixed $payableAmount
      * @return LegalMonetaryTotal
      */
